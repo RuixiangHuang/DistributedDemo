@@ -23,10 +23,20 @@ async def _send_heartbeat():
         response.raise_for_status()
 
 
+async def _is_registered() -> bool:
+    async with httpx.AsyncClient(timeout=3.0) as client:
+        response = await client.get(f"{CENTER_URL}/nodes")
+        response.raise_for_status()
+        payload = response.json()
+    nodes = payload.get("nodes", {})
+    return NODE_ID in nodes
+
+
 async def _heartbeat_loop():
     while True:
         try:
-            await _send_heartbeat()
+            if await _is_registered():
+                await _send_heartbeat()
         except httpx.HTTPError:
             # Keep node process alive even when center is temporarily unreachable.
             pass

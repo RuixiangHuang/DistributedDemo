@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ### Start register center (port 8000)
 
 ```bash
-uvicorn app.register_center:app --host 0.0.0.0 --port 8000 --reload
+uvicorn app.register_center:app --host 0.0.0.0 --port 8000
 ```
 
 ### Start two nodes (example)
@@ -33,13 +33,13 @@ uvicorn app.register_center:app --host 0.0.0.0 --port 8000 --reload
 Terminal 1:
 
 ```bash
-NODE_ID=node-1 NODE_PORT=9001 CENTER_URL=http://127.0.0.1:8000 uvicorn app.node:app --host 0.0.0.0 --port 9001 --reload
+NODE_ID=node-1 NODE_PORT=9001 CENTER_URL=http://127.0.0.1:8000 uvicorn app.node:app --host 0.0.0.0 --port 9001
 ```
 
 Terminal 2:
 
 ```bash
-NODE_ID=node-2 NODE_PORT=9002 CENTER_URL=http://127.0.0.1:8000 uvicorn app.node:app --host 0.0.0.0 --port 9002 --reload
+NODE_ID=node-2 NODE_PORT=9002 CENTER_URL=http://127.0.0.1:8000 uvicorn app.node:app --host 0.0.0.0 --port 9002
 ```
 
 ## 4. Manually register nodes
