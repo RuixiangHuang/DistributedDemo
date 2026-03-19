@@ -94,3 +94,6 @@ curl -X POST http://127.0.0.1:8000/nodes/unregister \
   -H "Content-Type: application/json" \
   -d '{"node_id":"node-1"}'
 ```
+
+## Architecture
+![architecture diagram](https://raw.githubusercontent.com/RuixiangHuang/DistributedDemo/main/QQ20260318-223455.png)
