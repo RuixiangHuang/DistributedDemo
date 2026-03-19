@@ -3,7 +3,7 @@
 This project provides a minimal runnable microservice architecture example:
 
 - `register center`: handles node registration/unregistration, receives heartbeat, and performs random `ping` dispatch.
-- `node`: sends heartbeat periodically after it has been manually registered.
+- `node`: starts with heartbeat disabled; heartbeat must be started manually after registration.
 
 ## 1. Create and activate a virtual environment
 
@@ -60,7 +60,19 @@ curl -X POST http://127.0.0.1:8000/nodes/register \
   -d '{"node_id":"node-2","node_url":"http://127.0.0.1:9002"}'
 ```
 
-## 5. Heartbeat and random ping dispatch
+## 5. Start heartbeat manually
+
+After registration, start heartbeat on each node:
+
+```bash
+curl -X POST http://127.0.0.1:9001/heartbeat/start
+```
+
+```bash
+curl -X POST http://127.0.0.1:9002/heartbeat/start
+```
+
+## 6. Heartbeat and random ping dispatch
 
 Nodes send heartbeat to center through:
 
@@ -79,7 +91,7 @@ The response includes:
 - `selected_node_port`: selected node port in center routing result
 - `responded_from_port`: the actual node port that returned `pong`
 
-## 6. Query and deregister
+## 7. Query and deregister
 
 List registered nodes:
 
@@ -90,9 +102,23 @@ curl http://127.0.0.1:8000/nodes
 Deregister a node:
 
 ```bash
+curl -X POST http://127.0.0.1:9001/heartbeat/stop
+```
+
+```bash
+curl -X POST http://127.0.0.1:9002/heartbeat/stop
+```
+
+```bash
 curl -X POST http://127.0.0.1:8000/nodes/unregister \
   -H "Content-Type: application/json" \
   -d '{"node_id":"node-1"}'
+```
+
+```bash
+curl -X POST http://127.0.0.1:8000/nodes/unregister \
+  -H "Content-Type: application/json" \
+  -d '{"node_id":"node-2"}'
 ```
 
 ## Architecture
